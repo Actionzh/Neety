@@ -3,6 +3,7 @@ package server;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -31,6 +32,7 @@ public class EchoServer {
                 .localAddress(new InetSocketAddress(port))
                 .childHandler(new ChannelInitializer<SocketChannel>() {
 
+
                     @Override
                     protected void initChannel(SocketChannel socketChannel){
 
@@ -40,6 +42,7 @@ public class EchoServer {
                 });
 
         try {
+            b = b.option(ChannelOption.SO_BACKLOG, 128);
             ChannelFuture f=b.bind().sync();
             f.channel().closeFuture().sync();
 
